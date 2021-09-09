@@ -1,0 +1,47 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Kontoen er allerede konfigureret",
+            "reauth_successful": "Genlogin var succesfuldt"
+        },
+        "error": {
+            "invalid_auth": "Fejl i login",
+            "unknown": "Ukendt fejl"
+        },
+        "step": {
+            "installation": {
+                "data": {
+                    "giid": "Installation"
+                },
+                "description": "Home Assistant fandt flere G4S installationer i din konto. Vælg venligst den installation der skal tilføjes til Home Assistant."
+            },
+            "reauth_confirm": {
+                "data": {
+                    "description": "Login igen med din G4S konto.",
+                    "email": "Email",
+                    "password": "Password"
+                }
+            },
+            "user": {
+                "data": {
+                    "description": "Login med din G4S konto.",
+                    "email": "Email",
+                    "password": "Password"
+                }
+            }
+        }
+    },
+    "options": {
+        "error": {
+            "code_format_mismatch": "Standard pinkoden er ikke det rigtige antal ciffre"
+        },
+        "step": {
+            "init": {
+                "data": {
+                    "lock_code_digits": "Antal ciffre i pin kode til låse",
+                    "lock_default_code": "Standard pin kode hvis ingen angives"
+                }
+            }
+        }
+    }
+}
