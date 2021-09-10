@@ -61,6 +61,8 @@ class G4sDataUpdateCoordinator(DataUpdateCoordinator):
                 device.name: device
                 for device in self.alarm.sensors if device.type == DeviceType.DOORWINDOWSENSOR
             },
+            "panel": [device for device in self.alarm.sensors if device.type == DeviceType.PANEL][0]
+            
             # "locks": {
             #     device["deviceLabel"]: device
             #     for device in overview["doorLockStatusList"]

@@ -1,5 +1,6 @@
 """Support for G4S binary sensors."""
 from __future__ import annotations
+from typing import Dict
 
 from homeassistant.components.binary_sensor import (
     DEVICE_CLASS_CONNECTIVITY,
@@ -8,6 +9,7 @@ from homeassistant.components.binary_sensor import (
 )
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.const import ATTR_BATTERY_LEVEL
 from homeassistant.helpers.entity import DeviceInfo, Entity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -76,6 +78,13 @@ class G4sDoorWindowSensor(CoordinatorEntity, BinarySensorEntity):
             super().available
             and self.serial_number in self.coordinator.data["door_window"]
         )
+    @property
+    def extra_state_attributes(self) -> Dict[str, int]:
+        """Return the state of the entity."""
+        battery_level = self.coordinator.data["climate"][self.serial_number].battery_level
+        if not battery_level:
+            return {}
+        return {ATTR_BATTERY_LEVEL: battery_level}
 
 
 # class VerisureEthernetStatus(CoordinatorEntity, BinarySensorEntity):

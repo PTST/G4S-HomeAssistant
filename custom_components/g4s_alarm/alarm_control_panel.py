@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+from typing import Dict
 
 from homeassistant.components.alarm_control_panel import (
     FORMAT_NUMBER,
@@ -16,6 +17,7 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.const import ATTR_BATTERY_LEVEL
 
 from .const import ALARM_STATE_TO_HA, CONF_GIID, DOMAIN, LOGGER
 from .coordinator import G4sDataUpdateCoordinator
@@ -99,3 +101,11 @@ class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         """When entity is added to hass."""
         await super().async_added_to_hass()
         self._handle_coordinator_update()
+    
+    @property
+    def extra_state_attributes(self) -> Dict[str, int]:
+        """Return the state of the entity."""
+        battery_level = self.coordinator.data["panel"].battery_level
+        if not battery_level:
+            return {}
+        return {ATTR_BATTERY_LEVEL: battery_level}

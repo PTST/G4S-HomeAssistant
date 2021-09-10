@@ -1,5 +1,6 @@
 """Support for G4S sensors."""
 from __future__ import annotations
+from typing import Dict
 
 from homeassistant.components.sensor import (
     DEVICE_CLASS_HUMIDITY,
@@ -7,7 +8,7 @@ from homeassistant.components.sensor import (
     SensorEntity,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import PERCENTAGE, TEMP_CELSIUS
+from homeassistant.const import PERCENTAGE, TEMP_CELSIUS, ATTR_BATTERY_LEVEL
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo, Entity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -74,6 +75,16 @@ class G4sThermometer(CoordinatorEntity, SensorEntity):
     def native_value(self) -> str | None:
         """Return the state of the entity."""
         return self.coordinator.data["climate"][self.serial_number].temperature_level
+
+    
+    @property
+    def extra_state_attributes(self) -> Dict[str, int]:
+        """Return the state of the entity."""
+        battery_level = self.coordinator.data["climate"][self.serial_number].battery_level
+        if not battery_level:
+            return {}
+        return {ATTR_BATTERY_LEVEL: battery_level}
+
 
     @property
     def available(self) -> bool:
