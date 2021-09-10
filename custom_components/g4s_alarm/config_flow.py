@@ -1,4 +1,4 @@
-"""Config flow for Verisure integration."""
+"""Config flow for G4S integration."""
 from __future__ import annotations
 
 from typing import Any
@@ -22,8 +22,8 @@ from .const import (
 )
 
 
-class VerisureConfigFlowHandler(ConfigFlow, domain=DOMAIN):
-    """Handle a config flow for Verisure."""
+class G4SConfigFlowHandler(ConfigFlow, domain=DOMAIN):
+    """Handle a config flow for G4S."""
 
     VERSION = 1
 
@@ -31,12 +31,6 @@ class VerisureConfigFlowHandler(ConfigFlow, domain=DOMAIN):
     entry: ConfigEntry
     installations: dict[str, str]
     password: str
-
-    # @staticmethod
-    # @callback
-    # def async_get_options_flow(config_entry: ConfigEntry) -> G4sOptionsFlowHandler:
-    #     """Get the options flow for this handler."""
-    #     return G4sOptionsFlowHandler(config_entry)
 
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
@@ -140,45 +134,3 @@ class VerisureConfigFlowHandler(ConfigFlow, domain=DOMAIN):
             ),
             errors=errors,
         )
-
-
-# class G4sOptionsFlowHandler(OptionsFlow):
-#     """Handle G4s options."""
-
-#     def __init__(self, entry: ConfigEntry) -> None:
-#         """Initialize G4s options flow."""
-#         self.entry = entry
-
-#     async def async_step_init(
-#         self, user_input: dict[str, Any] | None = None
-#     ) -> FlowResult:
-#         """Manage G4s options."""
-#         errors = {}
-
-#         if user_input is not None:
-#             if len(user_input[CONF_LOCK_DEFAULT_CODE]) not in [
-#                 0,
-#                 user_input[CONF_LOCK_CODE_DIGITS],
-#             ]:
-#                 errors["base"] = "code_format_mismatch"
-#             else:
-#                 return self.async_create_entry(title="", data=user_input)
-
-#         return self.async_show_form(
-#             step_id="init",
-#             data_schema=vol.Schema(
-#                 {
-#                     vol.Optional(
-#                         CONF_LOCK_CODE_DIGITS,
-#                         default=self.entry.options.get(
-#                             CONF_LOCK_CODE_DIGITS, DEFAULT_LOCK_CODE_DIGITS
-#                         ),
-#                     ): int,
-#                     vol.Optional(
-#                         CONF_LOCK_DEFAULT_CODE,
-#                         default=self.entry.options.get(CONF_LOCK_DEFAULT_CODE),
-#                     ): str,
-#                 }
-#             ),
-#             errors=errors,
-#         )
