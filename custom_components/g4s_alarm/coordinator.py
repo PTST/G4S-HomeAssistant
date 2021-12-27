@@ -7,7 +7,7 @@ from g4s import Alarm
 from g4s.utils.enums import DeviceType
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_EMAIL, CONF_PASSWORD, HTTP_SERVICE_UNAVAILABLE
+from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.helpers.storage import STORAGE_DIR
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
