@@ -8,7 +8,7 @@
 ### Usage
 Install the integration either manually or via HACS by adding this repo as a custom repo
 
-Add the G4S integration by following the config flow in settins/integrations in your Home Assistant instance
+Add the G4S integration by following the config flow in settings/integrations in your Home Assistant instance
 
 Login to your G4S smart alarm account with you username and password
 
