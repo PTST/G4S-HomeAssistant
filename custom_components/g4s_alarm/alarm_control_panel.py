@@ -105,7 +105,9 @@ class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
     @property
     def extra_state_attributes(self) -> Dict[str, int]:
         """Return the state of the entity."""
-        battery_level = self.coordinator.data["panel"].battery_level
+        battery_level = None
+        for _, panel in self.coordinator.data["panel"].items():
+            battery_level = panel.battery_level
         if not battery_level:
             return {}
         return {ATTR_BATTERY_LEVEL: battery_level}
