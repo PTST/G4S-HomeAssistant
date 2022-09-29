@@ -17,4 +17,4 @@ Since i can only see G4S devices i my self have, any testers with other hardware
 
 When disabling the alarm a pin is required, this is then checked against all users known pins to validate if the pin is correct.
 
-But since the integration runs via the user account that is logged in all events will seem to come from this user and not the user who the pin pelong to.
+But since the integration runs via the user account that is logged in all events will seem to come from this user and not the user who the pin belong to.
