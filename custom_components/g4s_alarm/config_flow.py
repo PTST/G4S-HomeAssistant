@@ -43,7 +43,7 @@ class G4SConfigFlowHandler(ConfigFlow, domain=DOMAIN):
             try:
                 await self.hass.async_add_executor_job(alarm.update_status)
             except Exception as ex:
-                LOGGER.debug("Could not log in to Verisure, %s", ex)
+                LOGGER.debug("Could not log in to G4S, %s", ex)
                 errors["base"] = "invalid_auth"
             else:
                 self.email = user_input[CONF_EMAIL]
