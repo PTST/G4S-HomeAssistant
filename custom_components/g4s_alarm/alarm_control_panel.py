@@ -73,7 +73,7 @@ class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
                 arm_state = await self.hass.async_add_executor_job(
                     self.coordinator.alarm.disarm
                 )
-        LOGGER.debug("Verisure set arm state %s", state)
+        LOGGER.debug("G4S set arm state %s", state)
         await self.coordinator.async_refresh()
 
     async def async_alarm_disarm(self, code: str | None = None) -> None:
