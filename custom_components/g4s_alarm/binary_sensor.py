@@ -45,7 +45,7 @@ class G4sDoorWindowSensor(CoordinatorEntity, BinarySensorEntity):
     def __init__(
         self, coordinator: G4sDataUpdateCoordinator, serial_number: str
     ) -> None:
-        """Initialize the Verisure door window sensor."""
+        """Initialize the G4S door window sensor."""
         super().__init__(coordinator)
         self._attr_name = coordinator.data["door_window"][serial_number].name
         self._attr_unique_id = f"{serial_number}_door_window"
@@ -85,36 +85,3 @@ class G4sDoorWindowSensor(CoordinatorEntity, BinarySensorEntity):
         if not battery_level:
             return {}
         return {ATTR_BATTERY_LEVEL: battery_level}
-
-
-# class VerisureEthernetStatus(CoordinatorEntity, BinarySensorEntity):
-#     """Representation of a G4S VBOX internet status."""
-
-#     coordinator: G4sDataUpdateCoordinator
-#     _attr_name = "Verisure Ethernet status"
-#     _attr_device_class = DEVICE_CLASS_CONNECTIVITY
-
-#     @property
-#     def unique_id(self) -> str:
-#         """Return the unique ID for this entity."""
-#         return f"{self.coordinator.entry.data[CONF_GIID]}_ethernet"
-
-#     @property
-#     def device_info(self) -> DeviceInfo:
-#         """Return device information about this entity."""
-#         return {
-#             "name": "Verisure Alarm",
-#             "manufacturer": "Verisure",
-#             "model": "VBox",
-#             "identifiers": {(DOMAIN, self.coordinator.entry.data[CONF_GIID])},
-#         }
-
-#     @property
-#     def is_on(self) -> bool:
-#         """Return the state of the sensor."""
-#         return self.coordinator.data["ethernet"]
-
-#     @property
-#     def available(self) -> bool:
-#         """Return True if entity is available."""
-#         return super().available and self.coordinator.data["ethernet"] is not None
