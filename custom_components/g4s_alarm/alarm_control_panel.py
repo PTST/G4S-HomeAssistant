@@ -94,7 +94,10 @@ class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         self._attr_state = ALARM_STATE_TO_HA.get(
             self.coordinator.alarm.state.name
         )
-        self._attr_changed_by = self.coordinator.alarm.last_state_change_by.name
+        try:
+            self._attr_changed_by = self.coordinator.alarm.last_state_change_by.name
+        except AttributeError:
+            LOGGER.info("Could not find user for last change")
         super()._handle_coordinator_update()
 
     async def async_added_to_hass(self) -> None:
