@@ -33,7 +33,11 @@ class G4sDataUpdateCoordinator(DataUpdateCoordinator):
         )
 
     def validate_code(self, code) -> bool:
-        return code is not None and len([user for user in self.alarm.users if user.access_code == code]) > 0
+        valid_user_code = len([user for user in self.alarm.users if user.access_code == code]) > 0
+        valid_chip_code = len([chip.name for chip in self.alarm.sensors if chip.type == DeviceType.ACCESSCHIP and chip.access_code is not None and chip.access_code == code]) > 0
+        LOGGER.info("Valid user code: %s", valid_user_code)
+        LOGGER.info("Valid access chip code: %s", valid_chip_code)
+        return code is not None and (valid_user_code or valid_chip_code)
 
     async def _async_update_data(self) -> dict:
         """Fetch data from G4S."""
