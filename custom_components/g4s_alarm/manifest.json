@@ -3,7 +3,7 @@
     "name": "G4S",
     "documentation": "https://github.com/PTST/G4S-HomeAssistant",
     "issue_tracker": "https://github.com/PTST/G4S-HomeAssistant/issues",
-    "requirements": ["G4S==1.0.8"],
+    "requirements": ["G4S==1.0.10"],
     "dependencies": [],
     "codeowners": ["@PTST"],
     "config_flow": true,
