@@ -5,7 +5,6 @@ import asyncio
 from typing import Dict
 
 from homeassistant.components.alarm_control_panel import (
-    FORMAT_NUMBER,
     AlarmControlPanelEntity,
     AlarmControlPanelEntityFeature,
     CodeFormat,
