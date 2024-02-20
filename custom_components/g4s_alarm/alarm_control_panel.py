@@ -5,13 +5,11 @@ import asyncio
 from typing import Dict
 
 from homeassistant.components.alarm_control_panel import (
-    FORMAT_NUMBER,
     AlarmControlPanelEntity,
+    AlarmControlPanelEntityFeature,
+    CodeFormat,
 )
-from homeassistant.components.alarm_control_panel.const import (
-    SUPPORT_ALARM_ARM_AWAY,
-    SUPPORT_ALARM_ARM_NIGHT,
-)
+
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity import DeviceInfo
@@ -37,9 +35,9 @@ class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
 
     coordinator: G4sDataUpdateCoordinator
 
-    _attr_code_format = FORMAT_NUMBER
+    _attr_code_format = CodeFormat.NUMBER
     _attr_name = "G4S Alarm"
-    _attr_supported_features = SUPPORT_ALARM_ARM_NIGHT | SUPPORT_ALARM_ARM_AWAY
+    _attr_supported_features = AlarmControlPanelEntityFeature.ARM_NIGHT | AlarmControlPanelEntityFeature.ARM_AWAY
     _attr_code_arm_required: bool = False
 
 
