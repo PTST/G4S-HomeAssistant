@@ -3,12 +3,11 @@ from __future__ import annotations
 from typing import Dict
 
 from homeassistant.components.sensor import (
-    DEVICE_CLASS_HUMIDITY,
-    DEVICE_CLASS_TEMPERATURE,
+    SensorDeviceClass,
     SensorEntity,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import PERCENTAGE, TEMP_CELSIUS, ATTR_BATTERY_LEVEL
+from homeassistant.const import PERCENTAGE, ATTR_BATTERY_LEVEL, UnitOfTemperature
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo, Entity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -40,8 +39,8 @@ class G4sThermometer(CoordinatorEntity, SensorEntity):
 
     coordinator: G4sDataUpdateCoordinator
 
-    _attr_device_class = DEVICE_CLASS_TEMPERATURE
-    _attr_native_unit_of_measurement = TEMP_CELSIUS
+    _attr_device_class = SensorDeviceClass.TEMPERATURE
+    _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
 
     def __init__(
         self, coordinator: G4sDataUpdateCoordinator, serial_number: str

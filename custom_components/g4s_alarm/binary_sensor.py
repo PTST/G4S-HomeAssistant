@@ -3,8 +3,7 @@ from __future__ import annotations
 from typing import Dict
 
 from homeassistant.components.binary_sensor import (
-    DEVICE_CLASS_CONNECTIVITY,
-    DEVICE_CLASS_OPENING,
+    BinarySensorDeviceClass,
     BinarySensorEntity,
 )
 from homeassistant.config_entries import ConfigEntry
@@ -40,7 +39,7 @@ class G4sDoorWindowSensor(CoordinatorEntity, BinarySensorEntity):
 
     coordinator: G4sDataUpdateCoordinator
 
-    _attr_device_class = DEVICE_CLASS_OPENING
+    _attr_device_class = BinarySensorDeviceClass.OPENING
 
     def __init__(
         self, coordinator: G4sDataUpdateCoordinator, serial_number: str
