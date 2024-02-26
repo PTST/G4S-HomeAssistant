@@ -1,17 +1,20 @@
 {
     "domain": "g4s_alarm",
     "name": "G4S",
+    "codeowners": [
+        "@PTST"
+    ],
+    "config_flow": true,
+    "dependencies": [],
+    "dhcp": [
+        {
+            "macaddress": "3009F9*"
+        }
+    ],
     "documentation": "https://github.com/PTST/G4S-HomeAssistant",
     "issue_tracker": "https://github.com/PTST/G4S-HomeAssistant/issues",
-    "requirements": ["G4S==1.0.10"],
-    "dependencies": [],
-    "codeowners": ["@PTST"],
-    "config_flow": true,
-    "dhcp": [
-      {
-        "macaddress": "3009F9*"
-      }
+    "requirements": [
+        "G4S==1.0.10"
     ],
-    "iot_class": "cloud_polling",
     "version": "1.0.0"
-  }
+}
