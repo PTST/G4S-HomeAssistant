@@ -1,5 +1,5 @@
 [TYPECHECK]
-ignored-modules=voluptuous,homeassistant,g4s_alarm
+ignored-modules=voluptuous,homeassistant,g4s
 disable=missing-docstring,too-few-public-methods
 
 [SIMILARITIES]
