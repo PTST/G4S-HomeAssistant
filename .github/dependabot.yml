@@ -6,6 +6,6 @@
 version: 2
 updates:
   - package-ecosystem: "pip"
-    directory: "/custom_components/libreview/" 
+    directory: "/custom_components/g4s_alarm/" 
     schedule:
-      interval: "weekly½"
+      interval: "weekly"
