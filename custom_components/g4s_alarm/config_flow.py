@@ -1,4 +1,5 @@
 """Config flow for G4S integration."""
+
 from __future__ import annotations
 
 from typing import Any
@@ -25,6 +26,7 @@ from .const import (
     LOGGER,
 )
 
+
 class G4SOptionsFlowHandler(OptionsFlow):
     def __init__(self, entry: ConfigEntry) -> None:
         """Initialize options flow."""
@@ -46,12 +48,16 @@ class G4SOptionsFlowHandler(OptionsFlow):
 
         default_scan_interval = DEFAULT_SCAN_INTERVAL
         if self.entry.data.get(CONF_SCAN_INTERVAL) is not None:
-            default_scan_interval = timedelta(seconds=int(self.entry.data.get(CONF_SCAN_INTERVAL)))
+            default_scan_interval = timedelta(
+                seconds=int(self.entry.data.get(CONF_SCAN_INTERVAL))
+            )
         return self.async_show_form(
             step_id="init",
             data_schema=vol.Schema(
                 {
-                    vol.Optional(CONF_SCAN_INTERVAL, default=default_scan_interval.total_seconds): int
+                    vol.Optional(
+                        CONF_SCAN_INTERVAL, default=default_scan_interval.total_seconds
+                    ): int
                 }
             ),
         )
@@ -74,7 +80,9 @@ class G4SConfigFlowHandler(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
 
         if user_input is not None:
-            alarm = Alarm(username=user_input[CONF_EMAIL], password=user_input[CONF_PASSWORD])
+            alarm = Alarm(
+                username=user_input[CONF_EMAIL], password=user_input[CONF_PASSWORD]
+            )
             try:
                 await self.hass.async_add_executor_job(alarm.update_status)
             except Exception as ex:
@@ -83,9 +91,7 @@ class G4SConfigFlowHandler(ConfigFlow, domain=DOMAIN):
             else:
                 self.email = user_input[CONF_EMAIL]
                 self.password = user_input[CONF_PASSWORD]
-                self.installations = {
-                    str(alarm.status.panel_id): alarm.status.name
-                }
+                self.installations = {str(alarm.status.panel_id): alarm.status.name}
                 return await self.async_step_installation()
 
         return self.async_show_form(
@@ -138,7 +144,9 @@ class G4SConfigFlowHandler(ConfigFlow, domain=DOMAIN):
         errors: dict[str, str] = {}
 
         if user_input is not None:
-            alarm = Alarm(username=user_input[CONF_EMAIL], password=user_input[CONF_PASSWORD])
+            alarm = Alarm(
+                username=user_input[CONF_EMAIL], password=user_input[CONF_PASSWORD]
+            )
             try:
                 await self.hass.async_add_executor_job(alarm.update_status)
             except Exception as ex:

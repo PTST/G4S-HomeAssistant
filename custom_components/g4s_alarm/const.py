@@ -1,4 +1,5 @@
 """Constants for the G4S integration."""
+
 from datetime import timedelta
 import logging
 

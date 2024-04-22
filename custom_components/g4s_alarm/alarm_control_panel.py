@@ -1,4 +1,5 @@
 """Support for G4S alarm control panels."""
+
 from __future__ import annotations
 
 import asyncio
@@ -37,9 +38,11 @@ class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
 
     _attr_code_format = CodeFormat.NUMBER
     _attr_name = "G4S Alarm"
-    _attr_supported_features = AlarmControlPanelEntityFeature.ARM_NIGHT | AlarmControlPanelEntityFeature.ARM_AWAY
+    _attr_supported_features = (
+        AlarmControlPanelEntityFeature.ARM_NIGHT
+        | AlarmControlPanelEntityFeature.ARM_AWAY
+    )
     _attr_code_arm_required: bool = False
-
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -89,9 +92,7 @@ class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
-        self._attr_state = ALARM_STATE_TO_HA.get(
-            self.coordinator.alarm.state.name
-        )
+        self._attr_state = ALARM_STATE_TO_HA.get(self.coordinator.alarm.state.name)
         try:
             self._attr_changed_by = self.coordinator.alarm.last_state_change_by.name
         except AttributeError:
@@ -102,7 +103,7 @@ class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         """When entity is added to hass."""
         await super().async_added_to_hass()
         self._handle_coordinator_update()
-    
+
     @property
     def extra_state_attributes(self) -> Dict[str, int]:
         """Return the state of the entity."""

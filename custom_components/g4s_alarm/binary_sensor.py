@@ -1,4 +1,5 @@
 """Support for G4S binary sensors."""
+
 from __future__ import annotations
 from typing import Dict
 
@@ -25,8 +26,7 @@ async def async_setup_entry(
     """Set up G4S binary sensors based on a config entry."""
     coordinator: G4sDataUpdateCoordinator = hass.data[DOMAIN][entry.entry_id]
 
-
-    sensors =[
+    sensors = [
         G4sDoorWindowSensor(coordinator, serial_number)
         for serial_number in coordinator.data["door_window"]
     ]
@@ -66,9 +66,7 @@ class G4sDoorWindowSensor(CoordinatorEntity, BinarySensorEntity):
     @property
     def is_on(self) -> bool:
         """Return the state of the sensor."""
-        return (
-            self.coordinator.data["door_window"][self.serial_number].is_open
-        )
+        return self.coordinator.data["door_window"][self.serial_number].is_open
 
     @property
     def available(self) -> bool:
@@ -77,10 +75,13 @@ class G4sDoorWindowSensor(CoordinatorEntity, BinarySensorEntity):
             super().available
             and self.serial_number in self.coordinator.data["door_window"]
         )
+
     @property
     def extra_state_attributes(self) -> Dict[str, int]:
         """Return the state of the entity."""
-        battery_level = self.coordinator.data["climate"][self.serial_number].battery_level
+        battery_level = self.coordinator.data["climate"][
+            self.serial_number
+        ].battery_level
         if not battery_level:
             return {}
         return {ATTR_BATTERY_LEVEL: battery_level}

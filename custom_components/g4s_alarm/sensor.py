@@ -1,4 +1,5 @@
 """Support for G4S sensors."""
+
 from __future__ import annotations
 from typing import Dict
 
@@ -75,15 +76,15 @@ class G4sThermometer(CoordinatorEntity, SensorEntity):
         """Return the state of the entity."""
         return self.coordinator.data["climate"][self.serial_number].temperature_level
 
-    
     @property
     def extra_state_attributes(self) -> Dict[str, int]:
         """Return the state of the entity."""
-        battery_level = self.coordinator.data["climate"][self.serial_number].battery_level
+        battery_level = self.coordinator.data["climate"][
+            self.serial_number
+        ].battery_level
         if not battery_level:
             return {}
         return {ATTR_BATTERY_LEVEL: battery_level}
-
 
     @property
     def available(self) -> bool:
@@ -91,5 +92,6 @@ class G4sThermometer(CoordinatorEntity, SensorEntity):
         return (
             super().available
             and self.serial_number in self.coordinator.data["climate"]
-            and self.coordinator.data["climate"][self.serial_number].temperature_level is not None
+            and self.coordinator.data["climate"][self.serial_number].temperature_level
+            is not None
         )

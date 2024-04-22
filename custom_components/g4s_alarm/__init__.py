@@ -1,4 +1,5 @@
 """Support for G4S devices."""
+
 from __future__ import annotations
 
 from contextlib import suppress
@@ -45,7 +46,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     # Set up all platforms for this device/entry.
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-    
+
     return True
 
 
