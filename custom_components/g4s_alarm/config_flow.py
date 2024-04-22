@@ -3,14 +3,18 @@ from __future__ import annotations
 
 from typing import Any
 
+from datetime import timedelta
+
 from g4s import Alarm
+from .const import DEFAULT_SCAN_INTERVAL
 
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry, ConfigFlow, OptionsFlow
-from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
+from homeassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_SCAN_INTERVAL
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
+import homeassistant.helpers.config_validation as cv
 
 from .const import (
     CONF_GIID,
@@ -20,6 +24,37 @@ from .const import (
     DOMAIN,
     LOGGER,
 )
+
+class G4SOptionsFlowHandler(OptionsFlow):
+    def __init__(self, entry: ConfigEntry) -> None:
+        """Initialize options flow."""
+        self.entry = entry
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Manage the options."""
+        if user_input is not None:
+            for k, v in self.entry.data.items():
+                if k not in user_input.keys():
+                    user_input[k] = v
+            self.hass.config_entries.async_update_entry(
+                self.entry, data=user_input, options=self.entry.options
+            )
+            self.async_abort(reason="configuration updated")
+            return self.async_create_entry(title="", data={})
+
+        default_scan_interval = DEFAULT_SCAN_INTERVAL
+        if self.entry.data.get(CONF_SCAN_INTERVAL) is not None:
+            default_scan_interval = timedelta(seconds=int(self.entry.data.get(CONF_SCAN_INTERVAL)))
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    vol.Optional(CONF_SCAN_INTERVAL, default=default_scan_interval.total_seconds): int
+                }
+            ),
+        )
 
 
 class G4SConfigFlowHandler(ConfigFlow, domain=DOMAIN):
@@ -134,3 +169,11 @@ class G4SConfigFlowHandler(ConfigFlow, domain=DOMAIN):
             ),
             errors=errors,
         )
+
+    @staticmethod
+    @callback
+    def async_get_options_flow(
+        config_entry: ConfigEntry,
+    ) -> OptionsFlow:
+        """Create the options flow."""
+        return G4SOptionsFlowHandler(config_entry)

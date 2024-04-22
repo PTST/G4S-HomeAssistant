@@ -7,7 +7,7 @@ from g4s import Alarm
 from g4s.utils.enums import DeviceType
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_EMAIL, CONF_PASSWORD
+from homeassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_SCAN_INTERVAL
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.helpers.storage import STORAGE_DIR
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
@@ -28,8 +28,10 @@ class G4sDataUpdateCoordinator(DataUpdateCoordinator):
             password=entry.data[CONF_PASSWORD]        
         )
 
+        update_interval = DEFAULT_SCAN_INTERVAL if self.entry.data.get(CONF_SCAN_INTERVAL) is None else timedelta(seconds=self.entry.data.get(CONF_SCAN_INTERVAL))
+
         super().__init__(
-            hass, LOGGER, name=DOMAIN, update_interval=DEFAULT_SCAN_INTERVAL
+            hass, LOGGER, name=DOMAIN, update_interval=update_interval
         )
 
     def validate_code(self, code) -> bool:
@@ -42,9 +44,11 @@ class G4sDataUpdateCoordinator(DataUpdateCoordinator):
     async def _async_update_data(self) -> dict:
         """Fetch data from G4S."""
         try:
+            LOGGER.warn("updating data")
             await self.hass.async_add_executor_job(
                 self.alarm.update_status
             )
+            LOGGER.warn("got new data")
         except Exception as ex:
             LOGGER.error("Could not read overview, %s", ex)
             raise

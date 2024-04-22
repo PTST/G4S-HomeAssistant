@@ -14,6 +14,7 @@ DOMAIN = "g4s_alarm"
 LOGGER = logging.getLogger(__package__)
 
 CONF_GIID = "giid"
+# CONF_SCAN_INTERVAL = "scan_interval"
 CONF_LOCK_CODE_DIGITS = "lock_code_digits"
 CONF_LOCK_DEFAULT_CODE = "lock_default_code"
 
