@@ -4,9 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+pre-commit = "==3.6.2"
+black = "*"
 
 [packages]
 G4S = "==1.0.8"
 
 [requires]
-python_version = "3.8"
+python_version = "3.10"
