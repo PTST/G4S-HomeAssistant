@@ -32,14 +32,12 @@
         }
     },
     "options": {
-        "error": {
-            "code_format_mismatch": "Standard pinkoden er ikke det rigtige antal ciffre"
-        },
         "step": {
             "init": {
+                "title": "G4S indstillinger",
+                "description": "Indstillinger for G4S integrationen",
                 "data": {
-                    "lock_code_digits": "Antal ciffre i pin kode til låse",
-                    "lock_default_code": "Standard pin kode hvis ingen angives"
+                    "scan_interval": "Skanningsinterval i sekunder"
                 }
             }
         }
