@@ -1,14 +1,12 @@
 """Support for G4S sensors."""
 
 from __future__ import annotations
+
 from typing import Dict
 
-from homeassistant.components.sensor import (
-    SensorDeviceClass,
-    SensorEntity,
-)
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import PERCENTAGE, ATTR_BATTERY_LEVEL, UnitOfTemperature
+from homeassistant.const import ATTR_BATTERY_LEVEL, UnitOfTemperature
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo, Entity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback

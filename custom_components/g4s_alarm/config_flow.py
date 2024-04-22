@@ -2,29 +2,17 @@
 
 from __future__ import annotations
 
+from datetime import timedelta
 from typing import Any
 
-from datetime import timedelta
-
-from g4s import Alarm
-from .const import DEFAULT_SCAN_INTERVAL
-
 import voluptuous as vol
-
+from g4s import Alarm
 from homeassistant.config_entries import ConfigEntry, ConfigFlow, OptionsFlow
 from homeassistant.const import CONF_EMAIL, CONF_PASSWORD, CONF_SCAN_INTERVAL
 from homeassistant.core import callback
 from homeassistant.data_entry_flow import FlowResult
-import homeassistant.helpers.config_validation as cv
 
-from .const import (
-    CONF_GIID,
-    CONF_LOCK_CODE_DIGITS,
-    CONF_LOCK_DEFAULT_CODE,
-    DEFAULT_LOCK_CODE_DIGITS,
-    DOMAIN,
-    LOGGER,
-)
+from .const import CONF_GIID, DEFAULT_SCAN_INTERVAL, DOMAIN, LOGGER
 
 
 class G4SOptionsFlowHandler(OptionsFlow):
@@ -85,7 +73,7 @@ class G4SConfigFlowHandler(ConfigFlow, domain=DOMAIN):
             )
             try:
                 await self.hass.async_add_executor_job(alarm.update_status)
-            except Exception as ex:
+            except Exception as ex:  # pylint: disable=broad-exception-caught
                 LOGGER.debug("Could not log in to G4S, %s", ex)
                 errors["base"] = "invalid_auth"
             else:
@@ -108,7 +96,7 @@ class G4SConfigFlowHandler(ConfigFlow, domain=DOMAIN):
     async def async_step_installation(
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
-        """Select Verisure installation to add."""
+        """Select G4S installation to add."""
         if len(self.installations) == 1:
             user_input = {CONF_GIID: list(self.installations)[0]}
 
@@ -132,15 +120,15 @@ class G4SConfigFlowHandler(ConfigFlow, domain=DOMAIN):
             },
         )
 
-    async def async_step_reauth(self, data: dict[str, Any]) -> FlowResult:
-        """Handle initiation of re-authentication with Verisure."""
+    async def async_step_reauth(self, _: dict[str, Any]) -> FlowResult:
+        """Handle initiation of re-authentication with G4S."""
         self.entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
         return await self.async_step_reauth_confirm()
 
     async def async_step_reauth_confirm(
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
-        """Handle re-authentication with Verisure."""
+        """Handle re-authentication with G4S."""
         errors: dict[str, str] = {}
 
         if user_input is not None:
@@ -149,8 +137,8 @@ class G4SConfigFlowHandler(ConfigFlow, domain=DOMAIN):
             )
             try:
                 await self.hass.async_add_executor_job(alarm.update_status)
-            except Exception as ex:
-                LOGGER.debug("Could not log in to Verisure, %s", ex)
+            except Exception as ex:  # pylint: disable=broad-exception-caught
+                LOGGER.debug("Could not log in to G4S, %s", ex)
                 errors["base"] = "invalid_auth"
             else:
                 data = self.entry.data.copy()

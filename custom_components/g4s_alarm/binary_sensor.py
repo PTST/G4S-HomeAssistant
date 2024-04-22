@@ -1,6 +1,7 @@
 """Support for G4S binary sensors."""
 
 from __future__ import annotations
+
 from typing import Dict
 
 from homeassistant.components.binary_sensor import (
@@ -8,9 +9,9 @@ from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
 from homeassistant.const import ATTR_BATTERY_LEVEL
-from homeassistant.helpers.entity import DeviceInfo, Entity
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 

@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-from contextlib import suppress
 import os
+from contextlib import suppress
+
+import homeassistant.helpers.config_validation as cv
 from g4s import Alarm
 from homeassistant.components.alarm_control_panel import (
     DOMAIN as ALARM_CONTROL_PANEL_DOMAIN,
@@ -17,7 +19,6 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import EVENT_HOMEASSISTANT_STOP
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed
-import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.storage import STORAGE_DIR
 
 from .const import DOMAIN

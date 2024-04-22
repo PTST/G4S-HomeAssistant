@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import asyncio
 from typing import Dict
 
 from homeassistant.components.alarm_control_panel import (
@@ -10,13 +9,12 @@ from homeassistant.components.alarm_control_panel import (
     AlarmControlPanelEntityFeature,
     CodeFormat,
 )
-
 from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import ATTR_BATTERY_LEVEL
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from homeassistant.const import ATTR_BATTERY_LEVEL
 
 from .const import ALARM_STATE_TO_HA, CONF_GIID, DOMAIN, LOGGER
 from .coordinator import G4sDataUpdateCoordinator
@@ -35,7 +33,8 @@ class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
     """Representation of a G4S alarm status."""
 
     coordinator: G4sDataUpdateCoordinator
-
+    _attr_state = None
+    _attr_changed_by = None
     _attr_code_format = CodeFormat.NUMBER
     _attr_name = "G4S Alarm"
     _attr_supported_features = (
@@ -65,15 +64,18 @@ class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
             arm_state = await self.hass.async_add_executor_job(
                 self.coordinator.alarm.night_arm
             )
+            LOGGER.debug("arm_state %s", arm_state)
         elif state == "ARMED_AWAY":
             arm_state = await self.hass.async_add_executor_job(
                 self.coordinator.alarm.arm
             )
+            LOGGER.debug("arm_state %s", arm_state)
         elif state == "DISARMED":
             if self.coordinator.validate_code(code):
                 arm_state = await self.hass.async_add_executor_job(
                     self.coordinator.alarm.disarm
                 )
+                LOGGER.debug("arm_state %s", arm_state)
         LOGGER.debug("G4S set arm state %s", state)
         await self.coordinator.async_refresh()
 
@@ -81,11 +83,11 @@ class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         """Send disarm command."""
         await self._async_set_arm_state("DISARMED", code)
 
-    async def async_alarm_arm_night(self, code: str | None = None) -> None:
+    async def async_alarm_arm_night(self, _: str | None = None) -> None:
         """Send arm home command."""
         await self._async_set_arm_state("ARMED_NIGHT")
 
-    async def async_alarm_arm_away(self, code: str | None = None) -> None:
+    async def async_alarm_arm_away(self, _: str | None = None) -> None:
         """Send arm away command."""
         await self._async_set_arm_state("ARMED_AWAY")
 

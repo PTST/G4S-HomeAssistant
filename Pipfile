@@ -6,6 +6,8 @@ verify_ssl = true
 [dev-packages]
 pre-commit = "==3.6.2"
 black = "*"
+pylint = "*"
+isort = "*"
 
 [packages]
 G4S = "==1.0.8"

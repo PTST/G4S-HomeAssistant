@@ -1,13 +1,13 @@
 """Constants for the G4S integration."""
 
-from datetime import timedelta
 import logging
+from datetime import timedelta
 
 from homeassistant.const import (
     STATE_ALARM_ARMED_AWAY,
+    STATE_ALARM_ARMED_NIGHT,
     STATE_ALARM_DISARMED,
     STATE_ALARM_PENDING,
-    STATE_ALARM_ARMED_NIGHT,
 )
 
 DOMAIN = "g4s_alarm"
@@ -15,12 +15,8 @@ DOMAIN = "g4s_alarm"
 LOGGER = logging.getLogger(__package__)
 
 CONF_GIID = "giid"
-# CONF_SCAN_INTERVAL = "scan_interval"
-CONF_LOCK_CODE_DIGITS = "lock_code_digits"
-CONF_LOCK_DEFAULT_CODE = "lock_default_code"
 
 DEFAULT_SCAN_INTERVAL = timedelta(minutes=1)
-DEFAULT_LOCK_CODE_DIGITS = 4
 
 # Mapping of device types to a human readable name
 DEVICE_TYPE_NAME = {
