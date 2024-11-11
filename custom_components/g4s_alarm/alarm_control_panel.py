@@ -30,18 +30,19 @@ async def async_setup_entry(
 
 
 class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
-    """Representation of a G4S alarm status."""
-
-    coordinator: G4sDataUpdateCoordinator
-    _attr_state = None
-    _attr_changed_by = None
-    _attr_code_format = CodeFormat.NUMBER
-    _attr_name = "G4S Alarm"
-    _attr_supported_features = (
-        AlarmControlPanelEntityFeature.ARM_NIGHT
-        | AlarmControlPanelEntityFeature.ARM_AWAY
-    )
-    _attr_code_arm_required: bool = False
+    
+    def __init__(self, coordinator):
+        """Representation of a G4S alarm status."""
+        super().__init__(coordinator)
+        self.coordinator: G4sDataUpdateCoordinator = coordinator
+        self._attr_changed_by = None
+        self._attr_code_format = CodeFormat.NUMBER
+        self._attr_name = "G4S Alarm"
+        self._attr_supported_features = (
+            AlarmControlPanelEntityFeature.ARM_NIGHT
+            | AlarmControlPanelEntityFeature.ARM_AWAY
+        )
+        self._attr_code_arm_required: bool = False
 
     @property
     def device_info(self) -> DeviceInfo:
@@ -91,10 +92,12 @@ class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
         """Send arm away command."""
         await self._async_set_arm_state("ARMED_AWAY")
 
+    @property
+    def alarm_state(self):
+        return ALARM_STATE_TO_HA.get(self.coordinator.alarm.state.name)
+
     @callback
     def _handle_coordinator_update(self) -> None:
-        """Handle updated data from the coordinator."""
-        self._attr_state = ALARM_STATE_TO_HA.get(self.coordinator.alarm.state.name)
         try:
             self._attr_changed_by = self.coordinator.alarm.last_state_change_by.name
         except AttributeError:
