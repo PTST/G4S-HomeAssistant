@@ -30,7 +30,7 @@ async def async_setup_entry(
 
 
 class G4sAlarm(CoordinatorEntity, AlarmControlPanelEntity):
-    
+
     def __init__(self, coordinator):
         """Representation of a G4S alarm status."""
         super().__init__(coordinator)
