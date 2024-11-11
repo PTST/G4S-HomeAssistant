@@ -3,12 +3,7 @@
 import logging
 from datetime import timedelta
 
-from homeassistant.const import (
-    STATE_ALARM_ARMED_AWAY,
-    STATE_ALARM_ARMED_NIGHT,
-    STATE_ALARM_DISARMED,
-    STATE_ALARM_PENDING,
-)
+from homeassistant.components.alarm_control_panel import AlarmControlPanelState
 
 DOMAIN = "g4s_alarm"
 
@@ -33,8 +28,8 @@ DEVICE_TYPE_NAME = {
 }
 
 ALARM_STATE_TO_HA = {
-    "DISARMED": STATE_ALARM_DISARMED,
-    "NIGHT_ARM": STATE_ALARM_ARMED_NIGHT,
-    "FULL_ARM": STATE_ALARM_ARMED_AWAY,
-    "PENDING_ARM": STATE_ALARM_PENDING,
+    "DISARMED": AlarmControlPanelState.DISARMED,
+    "NIGHT_ARM": AlarmControlPanelState.ARMED_NIGHT,
+    "FULL_ARM": AlarmControlPanelState.ARMED_AWAY,
+    "PENDING_ARM": AlarmControlPanelState.ARMING,
 }
